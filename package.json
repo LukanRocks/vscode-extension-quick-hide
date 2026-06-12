@@ -1,0 +1,94 @@
+{
+  "name": "quick-hide",
+  "displayName": "Quick Hide",
+  "description": "Manage your files.exclude patterns from a toggle list in the Explorer.",
+  "version": "0.0.1",
+  "publisher": "quickhide-local",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/local/vscode-extension-quick-hide"
+  },
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./extension.js",
+  "scripts": {
+    "package": "vsce package"
+  },
+  "activationEvents": [
+    "onView:quickHideExcludes"
+  ],
+  "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "id": "quickHideExcludes",
+          "name": "Quick Hide",
+          "icon": "$(eye-closed)",
+          "contextualTitle": "Quick Hide"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "quickHideExcludes",
+        "contents": "No exclude patterns in your user settings yet.\nAdd a glob pattern to start hiding files.\n[Add Pattern](command:quickHide.add)"
+      }
+    ],
+    "commands": [
+      {
+        "command": "quickHide.add",
+        "title": "Quick Hide: Add Pattern",
+        "icon": "$(add)"
+      },
+      {
+        "command": "quickHide.refresh",
+        "title": "Quick Hide: Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "quickHide.edit",
+        "title": "Quick Hide: Edit Pattern",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "quickHide.delete",
+        "title": "Quick Hide: Remove Pattern",
+        "icon": "$(trash)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "quickHide.add",
+          "when": "view == quickHideExcludes",
+          "group": "navigation@1"
+        },
+        {
+          "command": "quickHide.refresh",
+          "when": "view == quickHideExcludes",
+          "group": "navigation@2"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "quickHide.edit",
+          "when": "view == quickHideExcludes && viewItem == quickHidePattern",
+          "group": "inline@1"
+        },
+        {
+          "command": "quickHide.delete",
+          "when": "view == quickHideExcludes && viewItem == quickHidePattern",
+          "group": "inline@2"
+        }
+      ]
+    }
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^2.24.0"
+  }
+}
