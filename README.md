@@ -12,9 +12,27 @@ under NPM Scripts) for managing your `files.exclude` patterns without ever openi
 - Each row has a **checkbox**:
   - **checked** = pattern is hidden (`true`)
   - **unchecked** = pattern is visible (`false`)
-- **Add** button (`+` in the view title) to type a new glob. It's added as
+- **Add Pattern** (`+` in the view title) to type a new glob. It's added as
   hidden (`true`) by default.
 - **Edit** (pencil) and **Remove** (trash) actions appear inline on each row.
+
+### Groups
+
+You can organize patterns into collapsible **groups** and toggle a whole group
+at once:
+
+- **Add Group** (new-folder icon in the view title) creates a group.
+- A group's checkbox is **checked only when every pattern in it is hidden**.
+  Toggling the group sets all its members to that state in one write.
+- On a pattern row, **Move to Group…** (folder icon) assigns it to a group (or
+  creates a new one). Grouped patterns get a **Remove from Group** action.
+- On a group row: **+** adds a new pattern straight into that group, plus
+  rename and delete. Deleting a group never deletes the patterns — they just
+  become ungrouped again.
+
+Group definitions live in the `quickHide.groups` user setting (a map of group
+name → list of patterns). Like everything else, it's stored in your **user
+settings** only; `files.exclude` stays a flat object that any editor understands.
 
 All changes are written to your **user settings** (global), matching how you
 normally edit `files.exclude` by hand.

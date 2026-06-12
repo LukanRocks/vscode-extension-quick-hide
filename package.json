@@ -1,8 +1,8 @@
 {
   "name": "quick-hide",
   "displayName": "Quick Hide",
-  "description": "Manage your files.exclude patterns from a toggle list in the Explorer.",
-  "version": "0.0.1",
+  "description": "Manage your files.exclude patterns from a toggle list in the Explorer, with groups.",
+  "version": "0.1.0",
   "publisher": "quickhide-local",
   "license": "MIT",
   "repository": {
@@ -36,14 +36,33 @@
     "viewsWelcome": [
       {
         "view": "quickHideExcludes",
-        "contents": "No exclude patterns in your user settings yet.\nAdd a glob pattern to start hiding files.\n[Add Pattern](command:quickHide.add)"
+        "contents": "No exclude patterns in your user settings yet.\nAdd a glob pattern to start hiding files.\n[Add Pattern](command:quickHide.add)\n[Add Group](command:quickHide.addGroup)"
       }
     ],
+    "configuration": {
+      "title": "Quick Hide",
+      "properties": {
+        "quickHide.groups": {
+          "type": "object",
+          "default": {},
+          "markdownDescription": "Named groups of `files.exclude` patterns, used by the Quick Hide view. Each key is a group name, each value is an array of glob patterns. Managed through the view's UI.",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
     "commands": [
       {
         "command": "quickHide.add",
         "title": "Quick Hide: Add Pattern",
         "icon": "$(add)"
+      },
+      {
+        "command": "quickHide.addGroup",
+        "title": "Quick Hide: Add Group",
+        "icon": "$(new-folder)"
       },
       {
         "command": "quickHide.refresh",
@@ -59,6 +78,30 @@
         "command": "quickHide.delete",
         "title": "Quick Hide: Remove Pattern",
         "icon": "$(trash)"
+      },
+      {
+        "command": "quickHide.assignToGroup",
+        "title": "Quick Hide: Move to Group…",
+        "icon": "$(folder)"
+      },
+      {
+        "command": "quickHide.removeFromGroup",
+        "title": "Quick Hide: Remove from Group"
+      },
+      {
+        "command": "quickHide.addToGroup",
+        "title": "Quick Hide: Add Pattern to Group",
+        "icon": "$(add)"
+      },
+      {
+        "command": "quickHide.renameGroup",
+        "title": "Quick Hide: Rename Group",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "quickHide.deleteGroup",
+        "title": "Quick Hide: Delete Group",
+        "icon": "$(trash)"
       }
     ],
     "menus": {
@@ -69,21 +112,51 @@
           "group": "navigation@1"
         },
         {
-          "command": "quickHide.refresh",
+          "command": "quickHide.addGroup",
           "when": "view == quickHideExcludes",
           "group": "navigation@2"
+        },
+        {
+          "command": "quickHide.refresh",
+          "when": "view == quickHideExcludes",
+          "group": "navigation@3"
         }
       ],
       "view/item/context": [
         {
-          "command": "quickHide.edit",
-          "when": "view == quickHideExcludes && viewItem == quickHidePattern",
+          "command": "quickHide.addToGroup",
+          "when": "view == quickHideExcludes && viewItem == quickHideGroup",
           "group": "inline@1"
         },
         {
-          "command": "quickHide.delete",
-          "when": "view == quickHideExcludes && viewItem == quickHidePattern",
+          "command": "quickHide.renameGroup",
+          "when": "view == quickHideExcludes && viewItem == quickHideGroup",
           "group": "inline@2"
+        },
+        {
+          "command": "quickHide.deleteGroup",
+          "when": "view == quickHideExcludes && viewItem == quickHideGroup",
+          "group": "inline@3"
+        },
+        {
+          "command": "quickHide.assignToGroup",
+          "when": "view == quickHideExcludes && viewItem =~ /quickHidePattern/",
+          "group": "inline@1"
+        },
+        {
+          "command": "quickHide.edit",
+          "when": "view == quickHideExcludes && viewItem =~ /quickHidePattern/",
+          "group": "inline@2"
+        },
+        {
+          "command": "quickHide.delete",
+          "when": "view == quickHideExcludes && viewItem =~ /quickHidePattern/",
+          "group": "inline@3"
+        },
+        {
+          "command": "quickHide.removeFromGroup",
+          "when": "view == quickHideExcludes && viewItem == quickHidePatternGrouped",
+          "group": "1_modify@1"
         }
       ]
     }
