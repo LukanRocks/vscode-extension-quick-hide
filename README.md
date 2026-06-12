@@ -4,8 +4,6 @@ A tiny VS Code extension that adds a **Quick Hide** section to the Explorer (rig
 under NPM Scripts) for managing your `files.exclude` patterns without ever opening
 `settings.json`.
 
-![placeholder](https://via.placeholder.com/600x200?text=Quick+Hide)
-
 ## What it does
 
 - Lists every pattern from your **user** `files.exclude` settings.
@@ -40,7 +38,7 @@ normally edit `files.exclude` by hand.
 ## Why "user settings" only
 
 The view reads `inspect('files.exclude').globalValue`, so it shows and edits only
-the patterns *you* added — never VS Code's built-in defaults like `**/.git`. That
+the patterns _you_ added — never VS Code's built-in defaults like `**/.git`. That
 keeps your `settings.json` clean.
 
 ## Install locally

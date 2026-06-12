@@ -4,6 +4,10 @@
   "description": "Manage your files.exclude patterns from a toggle list in the Explorer, with groups.",
   "version": "0.1.0",
   "publisher": "quickhide-local",
+  "author": {
+    "name": "Lukan Vanderlinde",
+    "email": "lukan@papelada.app"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
