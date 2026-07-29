@@ -1,4 +1,9 @@
 .vscode/**
+.github/**
 .gitignore
+.vscodeignore
 node_modules/**
+package-lock.json
 *.vsix
+SECURITY.md
+assets/icon.svg
