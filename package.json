@@ -2,23 +2,35 @@
   "name": "quick-hide",
   "displayName": "Quick Hide",
   "description": "Manage your files.exclude patterns from a toggle list in the Explorer, with groups.",
-  "version": "0.1.0",
-  "publisher": "quickhide-local",
+  "version": "1.0.1",
+  "publisher": "LukanRocks",
   "author": {
     "name": "Lukan Vanderlinde",
-    "email": "lukan@papelada.app"
+    "email": "hello@lukan.rocks"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/local/vscode-extension-quick-hide"
+    "url": "https://github.com/LukanRocks/vscode-extension-quick-hide.git"
   },
+  "bugs": {
+    "url": "https://github.com/LukanRocks/vscode-extension-quick-hide/issues"
+  },
+  "homepage": "https://github.com/LukanRocks/vscode-extension-quick-hide#readme",
+  "keywords": [
+    "files.exclude",
+    "explorer",
+    "hide",
+    "toggle",
+    "glob"
+  ],
   "engines": {
     "vscode": "^1.74.0"
   },
   "categories": [
     "Other"
   ],
+  "icon": "assets/icon.png",
   "main": "./extension.js",
   "scripts": {
     "package": "vsce package"
@@ -52,7 +64,9 @@
           "markdownDescription": "Named groups of `files.exclude` patterns, used by the Quick Hide view. Each key is a group name, each value is an array of glob patterns. Managed through the view's UI.",
           "additionalProperties": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           }
         }
       }

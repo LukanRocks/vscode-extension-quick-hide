@@ -41,12 +41,20 @@ The view reads `inspect('files.exclude').globalValue`, so it shows and edits onl
 the patterns _you_ added — never VS Code's built-in defaults like `**/.git`. That
 keeps your `settings.json` clean.
 
-## Install locally
+## Install
+
+- **Marketplace:** search for **Quick Hide** in the Extensions view, or install
+  from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=LukanRocks.quick-hide).
+- **From a release:** download the `.vsix` from the
+  [latest GitHub release](https://github.com/LukanRocks/vscode-extension-quick-hide/releases/latest)
+  and run `code --install-extension quick-hide-<version>.vsix`.
+
+## Build from source
 
 ```sh
 npm install
 npm run package          # produces quick-hide-<version>.vsix
-code --install-extension quick-hide-0.0.1.vsix
+code --install-extension quick-hide-<version>.vsix
 ```
 
 Then reload VS Code. Open the Explorer and look for the **Quick Hide** section.

@@ -1,0 +1,84 @@
+name: Release
+
+# Runs on every push to master (i.e. whenever a PR is merged).
+# - If the version in package.json has no matching git tag yet, it is released
+#   as-is. Otherwise the major version is bumped (1.0.1 -> 2.0.0 -> 3.0.0) and
+#   committed back to master.
+# Each release is packaged as a .vsix and attached to a GitHub Release. The
+# Marketplace upload is done manually: download the .vsix from the release and
+# upload it at https://marketplace.visualstudio.com/manage (Azure DevOps no
+# longer issues the long-lived tokens that automated publishing would need).
+on:
+  push:
+    branches: [master]
+
+# Never run two releases at once.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Resolve release version
+        id: ver
+        run: |
+          current=$(node -p "require('./package.json').version")
+          if git rev-parse "v$current" >/dev/null 2>&1; then
+            echo "v$current is already released -> bumping the major version"
+            npm version major --no-git-tag-version
+            new=$(node -p "require('./package.json').version")
+            echo "bumped=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "v$current has no tag yet -> releasing it as-is"
+            new="$current"
+            echo "bumped=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "version=$new" >> "$GITHUB_OUTPUT"
+          echo "Releasing v$new"
+
+      - name: Commit version bump
+        if: steps.ver.outputs.bumped == 'true'
+        run: |
+          git add package.json package-lock.json
+          git commit -m "chore(release): v${{ steps.ver.outputs.version }} [skip ci]"
+          git push origin HEAD:master
+
+      - name: Tag release
+        run: |
+          git tag "v${{ steps.ver.outputs.version }}"
+          git push origin "v${{ steps.ver.outputs.version }}"
+
+      - name: Package VSIX
+        run: npx @vscode/vsce package -o "quick-hide-${{ steps.ver.outputs.version }}.vsix"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "v${{ steps.ver.outputs.version }}" \
+            "quick-hide-${{ steps.ver.outputs.version }}.vsix" \
+            --title "v${{ steps.ver.outputs.version }}" \
+            --generate-notes

@@ -1,0 +1,28 @@
+name: CI
+
+# Verifies the extension still packages cleanly on every PR, so a broken
+# manifest can never reach master and trigger a real release.
+on:
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify the extension packages
+        run: npx @vscode/vsce package -o quick-hide-ci.vsix
