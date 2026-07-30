@@ -1,10 +1,10 @@
 name: CI
 
 # Verifies the extension still packages cleanly on every PR, so a broken
-# manifest can never reach master and trigger a real release.
+# manifest can never reach main and trigger a real release.
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
 
 permissions:
   contents: read
