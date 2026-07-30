@@ -1,15 +1,15 @@
 name: Release
 
-# Runs on every push to master (i.e. whenever a PR is squash-merged).
+# Runs on every push to main (i.e. whenever a PR is squash-merged).
 #
 # The next version is derived from the latest git tag, incrementing the major
 # number (v1.0.1 -> v2.0.0 -> v3.0.0). The release is tagged and published as a
 # GitHub Release with the .vsix attached.
 #
-# This workflow NEVER pushes to master. It only creates a tag and a GitHub
+# This workflow NEVER pushes to main. It only creates a tag and a GitHub
 # Release, so it is fully compatible with the "Protect Main" ruleset (required
 # PR, signed commits, linear history) without needing any bypass. Because of
-# that, package.json's version on master is only a base value -- the source of
+# that, package.json's version on main is only a base value -- the source of
 # truth for released versions is the git tags.
 #
 # The Marketplace upload stays manual: download the .vsix from the release and
@@ -17,7 +17,7 @@ name: Release
 # longer issues the long-lived tokens that automated publishing would need).
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 # Never run two releases at once.
 concurrency:
